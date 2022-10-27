@@ -1,21 +1,21 @@
 import cv2
 
-left = cv2.VideoCapture(2)
-right = cv2.VideoCapture(2)
+left = cv2.VideoCapture(1)
+# right = cv2.VideoCapture(2)
 
 while(True):
-    if not (left.grab() and right.grab()):
-        print("No more frames")
-        break
 
     try:
-        
+        # if not (left.grab() and right.grab()):
+        #     print("No more frames")
+        #     break
+            
         _, leftFrame = left.retrieve()
-        _, rightFrame = right.retrieve()
+        # _, rightFrame = right.retrieve()
         
-        
+        print(leftFrame)
         cv2.imshow('left', leftFrame)
-        cv2.imshow('right', rightFrame)
+        # cv2.imshow('right', rightFrame)
 
     except Exception:
         import time
@@ -26,5 +26,5 @@ while(True):
         break
 
 left.release()
-right.release()
+# right.release()
 cv2.destroyAllWindows()
