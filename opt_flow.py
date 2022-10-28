@@ -18,19 +18,23 @@ from __future__ import print_function
 import numpy as np
 import cv2 as cv
 
-import video
+# import video
 
-
+import math
 def draw_flow(img, flow, step=16):
     h, w = img.shape[:2]
     y, x = np.mgrid[step/2:h:step, step/2:w:step].reshape(2,-1).astype(int)
     fx, fy = flow[y,x].T
+    
     lines = np.vstack([x, y, x+fx, y+fy]).T.reshape(-1, 2, 2)
     lines = np.int32(lines + 0.5)
     vis = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
     cv.polylines(vis, lines, 0, (0, 255, 0))
+    i=0
     for (x1, y1), (_x2, _y2) in lines:
+        print(math.atan(fy[i]/fx[i]))
         cv.circle(vis, (x1, y1), 1, (0, 255, 0), -1)
+        i+=0
     return vis
 
 
@@ -61,9 +65,9 @@ def main():
     try:
         fn = sys.argv[1]
     except IndexError:
-        fn = 0
+        fn = 2
 
-    cam = video.create_capture(fn)
+    cam = cv.VideoCapture(fn)
     _ret, prev = cam.read()
     prevgray = cv.cvtColor(prev, cv.COLOR_BGR2GRAY)
     show_hsv = False
